@@ -4,11 +4,13 @@ import (
 	"fmt"
 	"unsafe"
 
+	geo "github.com/Brad-99/go-microservices/geometry"
+
 	"rsc.io/quote"
 )
 
-func rectProps(length, width float64) (area, perimeter float64) {
-	area = length * width
+func rectProps(length, width float64) (area1, perimeter float64) {
+	area1 = length * width
 	perimeter = 2 * (length + width)
 	return
 }
@@ -30,4 +32,9 @@ func main() {
 
 	var daysOfTheMonth = map[string]int{"Jan": 31, "Feb": 28}
 	fmt.Println(daysOfTheMonth)
+
+	area := geo.Area(1, 2)
+	diag := geo.Diagonal(1, 2)
+	fmt.Println(area, diag)
+
 }
