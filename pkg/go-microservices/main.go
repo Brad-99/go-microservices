@@ -1,26 +1,39 @@
 package main
 
 import (
-    "fmt"
     "net/http"
 
     "github.com/gorilla/mux"
+	"time"
+	"log"
+	"encoding/json"
 )
 
+func healthHandler(w http.ResponseWriter, r*http.Request){
+	log.Println("Checking application health")
+	response := map[string]string{
+		"status": "HiJacked",
+		"timestamp": time.Now().String(),
+	}
+	json.NewEncoder(w).Encode(response)
+}
 func main() {
     r := mux.NewRouter()
+	r.HandleFunc("/health", healthHandler)
 
-    r.HandleFunc("/books/{title}/page/{page}", func(w http.ResponseWriter, r *http.Request) {
-        vars := mux.Vars(r)
-        title := vars["title"]
-        page := vars["page"]
-
-        fmt.Fprintf(w, "You've requested the book: %s on page %s\n", title, page)
-    })
-
-    http.ListenAndServe(":80", r)
+	log.Fatal(http.ListenAndServe(":80", r))
 }
 
+
+
+// r.HandleFunc("/books/{title}/page/{page}", func(w http.ResponseWriter, r *http.Request) {
+// 	vars := mux.Vars(r)
+// 	title := vars["title"]
+// 	page := vars["page"]
+
+// 	fmt.Fprintf(w, "You've requested the book: %s on page %s\n", title, page)
+// 	// type in: http://localhost/books/TheGreatGatsby/page/42
+// })
 
 // package main
 
