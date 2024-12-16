@@ -32,7 +32,13 @@ func detailsHandler(w http.ResponseWriter, r*http.Request){
 	if err != nil {
 		panic(err)
 	}
-	fmt.Println(hostname)
+	IP, _ := details.GetIP()
+	fmt.Println(hostname, IP)
+	response := map[string]string{
+		"hostname": hostname,
+		"ip": IP.String(),
+	}
+	json.NewEncoder(w).Encode(response)
 }
 
 func main() {
